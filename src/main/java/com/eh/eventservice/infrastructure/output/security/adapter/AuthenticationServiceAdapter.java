@@ -26,6 +26,14 @@ public class AuthenticationServiceAdapter implements IAuthenticationServicePort 
         }
     }
 
+    @Override
+    public Long getCurrentUserId() {
+        Map<String, Object> claims = getClaimsFromAuthentication();
+        if (claims == null){
+            return null;
+        }
+        return Long.valueOf(claims.get(DomainConstants.KEY_USER_ID).toString());
+    }
 
 
     private static Map<String, Object> getClaimsFromAuthentication() {

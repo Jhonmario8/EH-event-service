@@ -26,4 +26,9 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
     public Optional<Category> findByName(String name) {
         return categoryRepository.findByNameIgnoreCase(name).map(categoryEntityMapper::toDomain);
     }
+
+    @Override
+    public Optional<Category> findByIdAndActive(Long id) {
+        return categoryRepository.findByIdAndActive(id, true).map(categoryEntityMapper::toDomain);
+    }
 }

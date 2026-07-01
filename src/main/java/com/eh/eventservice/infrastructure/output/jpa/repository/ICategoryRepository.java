@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ICategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
     Optional<CategoryEntity> findByNameIgnoreCase(String name);
+    Optional<CategoryEntity> findByIdAndActive(Long id, Boolean active);
 }

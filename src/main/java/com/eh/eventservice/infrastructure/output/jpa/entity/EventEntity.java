@@ -37,6 +37,8 @@ public class EventEntity {
     @Column(name = "available_tickets")
     private Integer availableTickets;
     private Double price;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EventStatus status;
     @Column(name = "category_id")
     private Long categoryId;

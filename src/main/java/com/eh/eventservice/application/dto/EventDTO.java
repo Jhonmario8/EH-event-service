@@ -2,7 +2,6 @@ package com.eh.eventservice.application.dto;
 
 
 import com.eh.eventservice.application.constants.ApplicationConstants;
-import com.eh.eventservice.domain.model.EventStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @AllArgsConstructor
@@ -40,17 +38,10 @@ public class EventDTO {
     @NotNull(message = ApplicationConstants.MSG_EVENT_CAPACITY_NOT_NULL)
     @Min(value = 1, message = ApplicationConstants.MSG_EVENT_CAPACITY_MIN_VALUE)
     private Integer capacity;
-    @NotNull(message = ApplicationConstants.MSG_EVENT_AVAILABLE_TICKETS_NOT_NULL)
-    private Integer availableTickets;
     @NotNull(message = ApplicationConstants.MSG_EVENT_PRICE_NOT_NULL)
     @Min(value = 1, message = ApplicationConstants.MSG_EVENT_PRICE_MIN_VALUE)
     private Double price;
-    @NotBlank(message = ApplicationConstants.MSG_EVENT_STATUS_NOT_BLANK)
-    private EventStatus status;
     @NotNull(message = ApplicationConstants.MSG_EVENT_CATEGORY_ID_NOT_NULL)
     private Long categoryId;
-    @NotNull(message = ApplicationConstants.MSG_EVENT_ORGANIZER_ID_NOT_NULL)
-    private Long organizerId;
-
 
 }
