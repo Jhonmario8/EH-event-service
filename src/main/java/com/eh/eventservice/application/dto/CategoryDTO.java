@@ -17,8 +17,9 @@ import lombok.Setter;
 public class CategoryDTO {
 
     @NotBlank(message = ApplicationConstants.MSG_CATEGORY_NAME_NOT_BLANK)
-    @Size(max = 100, message = ApplicationConstants.MSG_CATEGORY_NAME_MAX_SIZE)
+    @Size(min = 3, max = 100, message = ApplicationConstants.MSG_CATEGORY_NAME_BETWEEN_SIZE)
     private String name;
+    @Size(max = 500,message = ApplicationConstants.MSG_CATEGORY_DESCRIPTION_MAX_SIZE)
     private String description;
 
 
