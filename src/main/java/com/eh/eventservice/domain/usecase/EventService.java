@@ -3,9 +3,12 @@ package com.eh.eventservice.domain.usecase;
 import com.eh.eventservice.domain.api.IAuthenticationServicePort;
 import com.eh.eventservice.domain.api.IEventServicePort;
 import com.eh.eventservice.domain.constants.DomainConstants;
+import com.eh.eventservice.domain.exception.ConflictException;
 import com.eh.eventservice.domain.exception.DomainException;
 import com.eh.eventservice.domain.exception.ForbiddenException;
+import com.eh.eventservice.domain.exception.NotFoundException;
 import com.eh.eventservice.domain.model.Event;
+import com.eh.eventservice.domain.model.EventStatus;
 import com.eh.eventservice.domain.model.Role;
 import com.eh.eventservice.domain.spi.ICategoryPersistencePort;
 import com.eh.eventservice.domain.spi.IEventPersistencePort;
@@ -31,6 +34,18 @@ public class EventService implements IEventServicePort {
         }
         event.setAvailableTickets(event.getCapacity());
         event.setOrganizerId(authenticationServicePort.getCurrentUserId());
+        return eventPersistencePort.saveEvent(event);
+    }
+
+    @Override
+    public Event opneEvent(Long eventId) {
+         validateRole(Role.ADMIN, DomainConstants.MSG_ONLY_ADMIN_CAN_OPEN_EVENT);
+        Event event = eventPersistencePort.findById(eventId)
+                .orElseThrow(() -> new NotFoundException(DomainConstants.MSG_EVENT_NOT_FOUND));
+        if (event.getStatus() != EventStatus.CREATED) {
+            throw new ConflictException(DomainConstants.MSG_ONLY_CREATED_EVENT_CAN_BE_OPENED);
+        }
+        event.setStatus(EventStatus.OPEN);
         return eventPersistencePort.saveEvent(event);
     }
 

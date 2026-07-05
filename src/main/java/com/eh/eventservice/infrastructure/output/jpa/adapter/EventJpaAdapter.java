@@ -7,6 +7,8 @@ import com.eh.eventservice.infrastructure.output.jpa.repository.IEventRepository
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class EventJpaAdapter implements IEventPersistencePort {
@@ -18,4 +20,11 @@ public class EventJpaAdapter implements IEventPersistencePort {
     public Event saveEvent(Event event) {
         return mapper.toDomain(eventRepository.save(mapper.toEntity(event)));
     }
+
+    @Override
+    public Optional<Event> findById(Long eventId) {
+        return eventRepository.findById(eventId).map(mapper::toDomain);
+    }
+
+
 }

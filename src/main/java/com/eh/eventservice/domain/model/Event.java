@@ -15,6 +15,7 @@ import java.time.LocalTime;
 @Getter
 public class Event {
 
+
     private Long id;
     private String name;
     private String description;

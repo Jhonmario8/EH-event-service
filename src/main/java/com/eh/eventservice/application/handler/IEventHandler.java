@@ -5,4 +5,5 @@ import com.eh.eventservice.application.dto.EventDTO;
 
 public interface IEventHandler {
     EventDTO createEvent(EventDTO eventDTO);
+    EventDTO openEvent(Long eventId);
 }

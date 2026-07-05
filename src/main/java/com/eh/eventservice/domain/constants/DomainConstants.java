@@ -11,4 +11,7 @@ public class DomainConstants {
     public static final String MSG_EVENT_DATE_CANNOT_BE_BEFORE_CREATION_DATE = "Event date cannot be before creation date";
     public static final String MSG_EVENT_END_TIME_MUST_BE_AFTER_START_TIME = "Event end time must be after start time";
     public static final String KEY_USER_ID = "userId";
+    public static final String MSG_ONLY_ADMIN_CAN_OPEN_EVENT = "Only admin can open event";
+    public static final String MSG_EVENT_NOT_FOUND = "Event not found";
+    public static final String MSG_ONLY_CREATED_EVENT_CAN_BE_OPENED = "Only created event can be opened";
 }

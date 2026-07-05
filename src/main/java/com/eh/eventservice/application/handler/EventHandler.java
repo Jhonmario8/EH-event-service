@@ -18,4 +18,9 @@ public class EventHandler implements IEventHandler{
         return mapper.toDTO(eventServicePort.createEvent(mapper.toDomain(eventDTO)));
     }
 
+    @Override
+    public EventDTO openEvent(Long eventId) {
+        return mapper.toDTO(eventServicePort.opneEvent(eventId));
+    }
+
 }
