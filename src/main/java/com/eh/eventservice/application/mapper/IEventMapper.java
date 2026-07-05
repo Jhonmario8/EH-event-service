@@ -1,6 +1,7 @@
 package com.eh.eventservice.application.mapper;
 
 import com.eh.eventservice.application.dto.EventDTO;
+import com.eh.eventservice.application.dto.EventResponseDTO;
 import com.eh.eventservice.domain.model.Event;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -9,5 +10,6 @@ import org.mapstruct.MappingConstants;
 public interface IEventMapper {
 
     Event toDomain(EventDTO event);
-    EventDTO toDTO(Event event);
+
+    EventResponseDTO toResponseDTO(Event event);
 }

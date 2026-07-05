@@ -2,7 +2,6 @@ package com.eh.eventservice.application.dto;
 
 
 import com.eh.eventservice.application.constants.ApplicationConstants;
-import com.eh.eventservice.domain.model.EventStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -39,10 +38,11 @@ public class EventDTO {
     @NotNull(message = ApplicationConstants.MSG_EVENT_CAPACITY_NOT_NULL)
     @Min(value = 1, message = ApplicationConstants.MSG_EVENT_CAPACITY_MIN_VALUE)
     private Integer capacity;
+    @Min(value = 1, message = ApplicationConstants.MSG_EVENT_AVAILABLE_TICKETS_MIN_VALUE)
+    private Integer availableTickets;
     @NotNull(message = ApplicationConstants.MSG_EVENT_PRICE_NOT_NULL)
     @Min(value = 1, message = ApplicationConstants.MSG_EVENT_PRICE_MIN_VALUE)
     private Double price;
-    private EventStatus status;
     @NotNull(message = ApplicationConstants.MSG_EVENT_CATEGORY_ID_NOT_NULL)
     private Long categoryId;
 

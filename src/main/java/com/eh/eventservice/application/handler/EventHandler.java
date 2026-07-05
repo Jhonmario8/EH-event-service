@@ -1,6 +1,7 @@
 package com.eh.eventservice.application.handler;
 
 import com.eh.eventservice.application.dto.EventDTO;
+import com.eh.eventservice.application.dto.EventResponseDTO;
 import com.eh.eventservice.application.mapper.IEventMapper;
 import com.eh.eventservice.domain.api.IEventServicePort;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +15,18 @@ public class EventHandler implements IEventHandler{
     private final IEventMapper mapper;
 
     @Override
-    public EventDTO createEvent(EventDTO eventDTO) {
-        return mapper.toDTO(eventServicePort.createEvent(mapper.toDomain(eventDTO)));
+    public EventResponseDTO createEvent(EventDTO eventDTO) {
+        return mapper.toResponseDTO(eventServicePort.createEvent(mapper.toDomain(eventDTO)));
     }
 
     @Override
-    public EventDTO openEvent(Long eventId) {
-        return mapper.toDTO(eventServicePort.opneEvent(eventId));
+    public EventResponseDTO openEvent(Long eventId) {
+        return mapper.toResponseDTO(eventServicePort.opneEvent(eventId));
+    }
+
+    @Override
+    public EventResponseDTO updateEvent(Long eventId, EventDTO eventDTO) {
+        return mapper.toResponseDTO(eventServicePort.updateEvent(eventId, mapper.toDomain(eventDTO)));
     }
 
 }

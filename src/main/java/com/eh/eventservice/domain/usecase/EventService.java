@@ -14,6 +14,9 @@ import com.eh.eventservice.domain.spi.ICategoryPersistencePort;
 import com.eh.eventservice.domain.spi.IEventPersistencePort;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 
 @RequiredArgsConstructor
 public class EventService implements IEventServicePort {
@@ -47,6 +50,36 @@ public class EventService implements IEventServicePort {
         }
         event.setStatus(EventStatus.OPEN);
         return eventPersistencePort.saveEvent(event);
+    }
+
+    @Override
+    public Event updateEvent(Long eventId,Event event) {
+        validateRole(Role.ORGANIZER, DomainConstants.MSG_ONLY_ORGANIZER_CAN_UPDATE_EVENT);
+        Event existingEvent = eventPersistencePort.findById(eventId)
+                .orElseThrow(() -> new NotFoundException(DomainConstants.MSG_EVENT_NOT_FOUND));
+        if (!Objects.equals(existingEvent.getOrganizerId(), authenticationServicePort.getCurrentUserId())) {
+            throw new ForbiddenException(DomainConstants.MSG_ONLY_ORGANIZER_CAN_UPDATE_OWN_EVENT);
+        }
+        if (existingEvent.getStatus() == EventStatus.FINISHED || existingEvent.getStatus() == EventStatus.CANCELLED) {
+            throw new ConflictException(DomainConstants.MSG_ONLY_CREATED_OR_OPEN_EVENT_CAN_BE_UPDATED);
+        }
+        Integer reserves = existingEvent.getCapacity() - existingEvent.getAvailableTickets();
+        if (event.getCapacity() < reserves) {
+            throw new ConflictException(DomainConstants.MSG_EVENT_CAPACITY_CANNOT_BE_LESS_THAN_BOOKED_TICKETS);
+        }
+        existingEvent.setName(event.getName());
+        existingEvent.setDescription(event.getDescription());
+        existingEvent.setEventDate(event.getEventDate());
+        existingEvent.setStartTime(event.getStartTime());
+        existingEvent.setEndTime(event.getEndTime());
+        existingEvent.setCity(event.getCity());
+        existingEvent.setAddress(event.getAddress());
+        existingEvent.setCapacity(event.getCapacity());
+        existingEvent.setAvailableTickets(event.getCapacity() - reserves);
+        existingEvent.setPrice(event.getPrice());
+        existingEvent.setCategoryId(event.getCategoryId());
+        existingEvent.setUpdatedAt(LocalDateTime.now());
+        return eventPersistencePort.saveEvent(existingEvent);
     }
 
     private void validateRole(Role requiredRole, String errorMessage) {

@@ -14,4 +14,8 @@ public class DomainConstants {
     public static final String MSG_ONLY_ADMIN_CAN_OPEN_EVENT = "Only admin can open event";
     public static final String MSG_EVENT_NOT_FOUND = "Event not found";
     public static final String MSG_ONLY_CREATED_EVENT_CAN_BE_OPENED = "Only created event can be opened";
+    public static final String MSG_ONLY_ORGANIZER_CAN_UPDATE_EVENT = "Only organizer can update event";
+    public static final String MSG_ONLY_ORGANIZER_CAN_UPDATE_OWN_EVENT = "Only organizer can update own event";
+    public static final String MSG_ONLY_CREATED_OR_OPEN_EVENT_CAN_BE_UPDATED = "Only created or open event can be updated";
+    public static final String MSG_EVENT_CAPACITY_CANNOT_BE_LESS_THAN_BOOKED_TICKETS = "Event capacity cannot be less than booked tickets";
 }
