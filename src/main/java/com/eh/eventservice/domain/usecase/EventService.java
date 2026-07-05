@@ -9,11 +9,13 @@ import com.eh.eventservice.domain.exception.ForbiddenException;
 import com.eh.eventservice.domain.exception.NotFoundException;
 import com.eh.eventservice.domain.model.Event;
 import com.eh.eventservice.domain.model.EventStatus;
+import com.eh.eventservice.domain.model.PageModel;
 import com.eh.eventservice.domain.model.Role;
 import com.eh.eventservice.domain.spi.ICategoryPersistencePort;
 import com.eh.eventservice.domain.spi.IEventPersistencePort;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -81,6 +83,12 @@ public class EventService implements IEventServicePort {
         existingEvent.setUpdatedAt(LocalDateTime.now());
         return eventPersistencePort.saveEvent(existingEvent);
     }
+
+    @Override
+    public PageModel<Event> getEvents(Long categoryId, String city, LocalDate eventDate, EventStatus status, int page, int size) {
+        return eventPersistencePort.findEvents(categoryId, city, eventDate, status, page, size);
+    }
+
 
     private void validateRole(Role requiredRole, String errorMessage) {
         Role currentUserRole = authenticationServicePort.getCurrentUserRole();
