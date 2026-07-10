@@ -19,6 +19,6 @@ public class Reservation {
     private String clientEmail;
     private Integer quantity;
     private ReservationStatus status=ReservationStatus.ACTIVE;
-    private LocalDateTime reservedAt=LocalDateTime.now();
+    private LocalDateTime reservedAt;
     private LocalDateTime canceledAt;
 }

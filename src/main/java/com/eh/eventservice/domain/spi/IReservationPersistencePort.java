@@ -8,5 +8,6 @@ public interface IReservationPersistencePort {
 
     Reservation saveReservation(Reservation reservation);
     Optional<Reservation> findByClientIdAndEventId(Long clientId, Long eventId);
+    Optional<Reservation> findById(Long id);
 
 }

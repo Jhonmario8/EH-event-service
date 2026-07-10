@@ -23,4 +23,10 @@ public class DomainConstants {
     public static final String MSG_RESERVATION_ALREADY_EXISTS = "Reservation already exists for this event and user";
     public static final String MSG_RESERVATION_QUANTITY_INVALID = "Reservation quantity must be greater than zero and less than or equal to six";
     public static final String MSG_NOT_ENOUGH_TICKETS_AVAILABLE = "Not enough tickets available for this event";
+    public static final String MSG_ONLY_CLIENT_CAN_CANCEL_RESERVATION = "Only client can cancel reservation";
+    public static final String MSG_RESERVATION_NOT_FOUND = "Reservation not found";
+    public static final String MSG_CANNOT_CANCEL_OTHER_CLIENT_RESERVATION = "Cannot cancel other client's reservation";
+    public static final String MSG_RESERVATION_ALREADY_CANCELLED = "Reservation is already cancelled";
+    public static final String MSG_CANNOT_CANCEL_RESERVATION_WITHIN_24_HOURS = "Cannot cancel reservation within 24 hours of the event start time";
+    public static final Object MSG_RESERVATION_CANCELLED_SUCCESSFULLY = "Reservation cancelled successfully";
 }

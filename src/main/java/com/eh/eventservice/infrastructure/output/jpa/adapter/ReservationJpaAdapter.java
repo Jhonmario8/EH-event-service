@@ -25,4 +25,9 @@ public class ReservationJpaAdapter implements IReservationPersistencePort {
     public Optional<Reservation> findByClientIdAndEventId(Long clientId, Long eventId) {
         return repository.findByClientIdAndEventId(clientId,eventId).map(mapper::toDomain);
     }
+
+    @Override
+    public Optional<Reservation> findById(Long id) {
+        return repository.findById(id).map(mapper::toDomain);
+    }
 }
