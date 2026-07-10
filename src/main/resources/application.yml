@@ -19,3 +19,6 @@ spring:
     jwt:
       secret: ${PRAGMA_JWT_KEY}
       expiration: 3600000
+
+services:
+  url-user: http://localhost:8080

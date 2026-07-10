@@ -3,6 +3,7 @@ package com.eh.eventservice.infrastructure.output.security.helper;
 import com.eh.eventservice.domain.constants.DomainConstants;
 import com.eh.eventservice.infrastructure.constants.InfrastructureConstants;
 import com.eh.eventservice.infrastructure.output.security.adapter.TokenServiceAdapter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,7 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import tools.jackson.databind.ObjectMapper;
+
 
 import java.io.IOException;
 import java.util.Date;

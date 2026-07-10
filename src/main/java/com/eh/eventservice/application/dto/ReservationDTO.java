@@ -18,10 +18,6 @@ public class ReservationDTO {
 
     @NotNull(message = ApplicationConstants.MSG_RESERVATION_EVENT_ID_NOT_NULL)
     private Long eventId;
-    @NotNull(message = ApplicationConstants.MSG_RESERVATION_CLIENT_ID_NOT_NULL)
-    private Long clientId;
-    @NotBlank(message = ApplicationConstants.MSG_RESERVATION_CLIENT_EMAIL_NOT_BLANK)
-    private String clientEmail;
     @NotNull(message = ApplicationConstants.MSG_RESERVATION_QUANTITY_NOT_NULL)
     @Min(value = 1, message = ApplicationConstants.MSG_RESERVATION_QUANTITY_MIN_VALUE)
     @Max(value = 6, message = ApplicationConstants.MSG_RESERVATION_QUANTITY_MAX_VALUE)

@@ -11,4 +11,5 @@ public interface IEventServicePort {
     Event opneEvent(Long eventId);
     Event updateEvent(Long eventId,Event event);
     PageModel<Event> getEvents(Long categoryId, String city, LocalDate eventDate, EventStatus status, int page, int size);
+
 }

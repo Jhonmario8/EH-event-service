@@ -18,4 +18,9 @@ public class DomainConstants {
     public static final String MSG_ONLY_ORGANIZER_CAN_UPDATE_OWN_EVENT = "Only organizer can update own event";
     public static final String MSG_ONLY_CREATED_OR_OPEN_EVENT_CAN_BE_UPDATED = "Only created or open event can be updated";
     public static final String MSG_EVENT_CAPACITY_CANNOT_BE_LESS_THAN_BOOKED_TICKETS = "Event capacity cannot be less than booked tickets";
+    public static final String MSG_ONLY_CLIENT_CAN_CREATE_RESERVATION = "Only client can create reservation";
+    public static final String MSG_EVENT_NOT_OPEN = "Only open event can be reserved";
+    public static final String MSG_RESERVATION_ALREADY_EXISTS = "Reservation already exists for this event and user";
+    public static final String MSG_RESERVATION_QUANTITY_INVALID = "Reservation quantity must be greater than zero and less than or equal to six";
+    public static final String MSG_NOT_ENOUGH_TICKETS_AVAILABLE = "Not enough tickets available for this event";
 }
