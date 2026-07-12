@@ -32,7 +32,7 @@ public class BeanConfiguration {
 
     @Bean
     public IEventServicePort iEventServicePort(){
-        return new EventService(eventPersistencePort,authenticationServicePort,categoryPersistencePort);
+        return new EventService(eventPersistencePort,authenticationServicePort,categoryPersistencePort,reservationPersistencePort);
     }
 
     @Bean

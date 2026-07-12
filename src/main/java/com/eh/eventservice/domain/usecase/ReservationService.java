@@ -87,7 +87,7 @@ public class ReservationService implements IReservationServicePort {
         if (hours < 24) {
             throw new ConflictException(DomainConstants.MSG_CANNOT_CANCEL_RESERVATION_WITHIN_24_HOURS);
         }
-        reservation.setStatus(ReservationStatus.CANCELED);
+        reservation.setStatus(ReservationStatus.CANCELLED);
         reservation.setCanceledAt(LocalDateTime.now());
         event.setAvailableTickets(event.getAvailableTickets() + reservation.getQuantity());
         if (event.getStatus().equals(EventStatus.SOLD_OUT)){

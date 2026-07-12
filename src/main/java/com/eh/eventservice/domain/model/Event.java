@@ -27,10 +27,10 @@ public class Event {
     private Integer capacity;
     private Integer availableTickets;
     private Double price;
-    private EventStatus status= EventStatus.CREATED;
+    private EventStatus status;
     private Long categoryId;
     private Long organizerId;
-    private LocalDateTime createdAt= LocalDateTime.now();
+    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
 }

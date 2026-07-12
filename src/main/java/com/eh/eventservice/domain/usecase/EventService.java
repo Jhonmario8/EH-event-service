@@ -7,16 +7,17 @@ import com.eh.eventservice.domain.exception.ConflictException;
 import com.eh.eventservice.domain.exception.DomainException;
 import com.eh.eventservice.domain.exception.ForbiddenException;
 import com.eh.eventservice.domain.exception.NotFoundException;
-import com.eh.eventservice.domain.model.Event;
-import com.eh.eventservice.domain.model.EventStatus;
-import com.eh.eventservice.domain.model.PageModel;
-import com.eh.eventservice.domain.model.Role;
+import com.eh.eventservice.domain.model.*;
 import com.eh.eventservice.domain.spi.ICategoryPersistencePort;
 import com.eh.eventservice.domain.spi.IEventPersistencePort;
+import com.eh.eventservice.domain.spi.IReservationPersistencePort;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -26,17 +27,20 @@ public class EventService implements IEventServicePort {
     private final IEventPersistencePort eventPersistencePort;
     private final IAuthenticationServicePort authenticationServicePort;
     private final ICategoryPersistencePort categoryPersistencePort;
+    private final IReservationPersistencePort reservationPersistencePort;
 
     @Override
     public Event createEvent(Event event) {
         validateRole(Role.ORGANIZER, DomainConstants.MSG_ONLY_ORGANIZER_CAN_CREATE_EVENT);
         categoryPersistencePort.findByIdAndActive(event.getCategoryId()).orElseThrow(() -> new DomainException(DomainConstants.MSG_CATEGORY_NOT_FOUND));
+        event.setCreatedAt(LocalDateTime.now());
         if (event.getEventDate().isBefore(event.getCreatedAt().toLocalDate())) {
             throw new DomainException(DomainConstants.MSG_EVENT_DATE_CANNOT_BE_BEFORE_CREATION_DATE);
         }
         if (!event.getEndTime().isAfter(event.getStartTime())){
             throw new DomainException(DomainConstants.MSG_EVENT_END_TIME_MUST_BE_AFTER_START_TIME);
         }
+        event.setStatus(EventStatus.CREATED);
         event.setAvailableTickets(event.getCapacity());
         event.setOrganizerId(authenticationServicePort.getCurrentUserId());
         return eventPersistencePort.saveEvent(event);
@@ -87,6 +91,40 @@ public class EventService implements IEventServicePort {
     @Override
     public PageModel<Event> getEvents(Long categoryId, String city, LocalDate eventDate, EventStatus status, int page, int size) {
         return eventPersistencePort.findEvents(categoryId, city, eventDate, status, page, size);
+    }
+
+    @Override
+    public Event finalizeEvent(Long eventId) {
+        validateRole(Role.ADMIN, DomainConstants.MSG_ONLY_ADMIN_CAN_FINALIZE_EVENT);
+        Event event = eventPersistencePort.findById(eventId)
+                .orElseThrow(() -> new NotFoundException(DomainConstants.MSG_EVENT_NOT_FOUND));
+        if (event.getStatus() != EventStatus.OPEN && event.getStatus() != EventStatus.SOLD_OUT) {
+            throw new ConflictException(DomainConstants.MSG_ONLY_OPEN_OR_SOLD_OUT_EVENT_CAN_BE_FINALIZED);
+        }
+        event.setStatus(EventStatus.FINISHED);
+        return eventPersistencePort.saveEvent(event);
+    }
+
+    @Override
+    @Transactional
+    public Map<String, Object> cancelEvent(Long eventId) {
+        validateRole(Role.ADMIN, DomainConstants.MSG_ONLY_ADMIN_CAN_FINALIZE_EVENT);
+        Event event = eventPersistencePort.findById(eventId)
+                .orElseThrow(() -> new NotFoundException(DomainConstants.MSG_EVENT_NOT_FOUND));
+        if (event.getStatus()!= EventStatus.OPEN && event.getStatus()!= EventStatus.CREATED) {
+            throw new ConflictException(DomainConstants.MSG_ONLY_OPEN_OR_CREATED_EVENT_CAN_BE_CANCELLED);
+        }
+        event.setStatus(EventStatus.CANCELLED);
+        List<Reservation> reservations = reservationPersistencePort.findByEventIdAndStatus(eventId, ReservationStatus.ACTIVE);
+        reservations.forEach(reservation -> {
+            reservation.setStatus(ReservationStatus.CANCELLED);
+            reservation.setCanceledAt(LocalDateTime.now());
+            reservationPersistencePort.saveReservation(reservation);
+        });
+        return Map.of(
+                "event", eventPersistencePort.saveEvent(event),
+                "cancelledReservations", reservations.size()
+        );
     }
 
 

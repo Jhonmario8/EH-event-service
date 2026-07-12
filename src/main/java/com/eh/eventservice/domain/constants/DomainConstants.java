@@ -29,4 +29,7 @@ public class DomainConstants {
     public static final String MSG_RESERVATION_ALREADY_CANCELLED = "Reservation is already cancelled";
     public static final String MSG_CANNOT_CANCEL_RESERVATION_WITHIN_24_HOURS = "Cannot cancel reservation within 24 hours of the event start time";
     public static final Object MSG_RESERVATION_CANCELLED_SUCCESSFULLY = "Reservation cancelled successfully";
+    public static final String MSG_ONLY_ADMIN_CAN_FINALIZE_EVENT = "Only admin can finalize event";
+    public static final String MSG_ONLY_OPEN_OR_SOLD_OUT_EVENT_CAN_BE_FINALIZED = "Only open or sold out event can be finalized";
+    public static final String MSG_ONLY_OPEN_OR_CREATED_EVENT_CAN_BE_CANCELLED = "Only open or created event can be cancelled";
 }

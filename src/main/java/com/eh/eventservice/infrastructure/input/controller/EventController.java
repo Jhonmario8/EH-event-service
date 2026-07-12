@@ -1,5 +1,6 @@
 package com.eh.eventservice.infrastructure.input.controller;
 
+import com.eh.eventservice.application.dto.EventCancelledDTO;
 import com.eh.eventservice.application.dto.EventDTO;
 import com.eh.eventservice.application.dto.EventResponseDTO;
 import com.eh.eventservice.application.dto.PageResponseDTO;
@@ -46,5 +47,17 @@ public class EventController {
                                                                       @RequestParam(defaultValue = "10") int size) {
 
         return new ResponseEntity<>(eventHandler.getEvents(categoryId, city, eventDate, status, page, size), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{eventId}/finish")
+    public ResponseEntity<EventResponseDTO> finalizeEvent(@PathVariable Long eventId) {
+        EventResponseDTO dto = eventHandler.finalizeEvent(eventId);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PatchMapping("/{eventId}/cancel")
+    public ResponseEntity<EventCancelledDTO> cancelEvent(@PathVariable Long eventId) {
+        EventCancelledDTO dto = eventHandler.cancelEvent(eventId);
+        return ResponseEntity.ok(dto);
     }
 }
