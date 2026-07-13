@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,10 +43,12 @@ public class EventJpaAdapter implements IEventPersistencePort {
                 PageRequest.of(page, size)
         );
 
-        System.out.println("Total elementos: " + result.getTotalElements());
-        System.out.println("Contenido: " + result.getContent());
-
         return mapper.toPageModel(result);
+    }
+
+    @Override
+    public List<Event> findByIds(List<Long> eventIds) {
+        return eventRepository.findByIdIn(eventIds).stream().map(mapper::toDomain).toList();
     }
 
 

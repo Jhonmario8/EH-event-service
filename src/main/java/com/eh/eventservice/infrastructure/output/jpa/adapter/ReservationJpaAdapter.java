@@ -1,11 +1,13 @@
 package com.eh.eventservice.infrastructure.output.jpa.adapter;
 
+import com.eh.eventservice.domain.model.PageModel;
 import com.eh.eventservice.domain.model.Reservation;
 import com.eh.eventservice.domain.model.ReservationStatus;
 import com.eh.eventservice.domain.spi.IReservationPersistencePort;
 import com.eh.eventservice.infrastructure.output.jpa.mapper.IReservationEntityMapper;
 import com.eh.eventservice.infrastructure.output.jpa.repository.IReservationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,5 +38,10 @@ public class ReservationJpaAdapter implements IReservationPersistencePort {
     @Override
     public List<Reservation> findByEventIdAndStatus(Long eventId, ReservationStatus status) {
         return repository.findByEventIdAndStatus(eventId, status).stream().map(mapper::toDomain).toList();
+    }
+
+    @Override
+    public PageModel<Reservation> findByClientId(Long clientId, int page, int size) {
+        return mapper.toPageModel(repository.findByClientId(clientId, PageRequest.of(page, size)));
     }
 }

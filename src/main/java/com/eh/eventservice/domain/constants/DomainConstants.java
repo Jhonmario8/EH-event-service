@@ -32,4 +32,5 @@ public class DomainConstants {
     public static final String MSG_ONLY_ADMIN_CAN_FINALIZE_EVENT = "Only admin can finalize event";
     public static final String MSG_ONLY_OPEN_OR_SOLD_OUT_EVENT_CAN_BE_FINALIZED = "Only open or sold out event can be finalized";
     public static final String MSG_ONLY_OPEN_OR_CREATED_EVENT_CAN_BE_CANCELLED = "Only open or created event can be cancelled";
+    public static final String MSG_ONLY_CLIENT_CAN_VIEW_RESERVATIONS = "Only client can view reservations";
 }

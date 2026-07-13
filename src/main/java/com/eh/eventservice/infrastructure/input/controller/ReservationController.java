@@ -1,8 +1,6 @@
 package com.eh.eventservice.infrastructure.input.controller;
 
-import com.eh.eventservice.application.dto.ReservationCancelledDTO;
-import com.eh.eventservice.application.dto.ReservationDTO;
-import com.eh.eventservice.application.dto.ReservationResponseDTO;
+import com.eh.eventservice.application.dto.*;
 import com.eh.eventservice.application.handler.IReservationHandler;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +26,13 @@ public class ReservationController {
         ReservationCancelledDTO response = reservationHandler.cancelReservation(id);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<PageResponseDTO<MyReservationResponseDTO>> getReservationsByClientId(@RequestParam(defaultValue = "0") int page,
+                                                                                               @RequestParam(defaultValue = "10") int size) {
+        PageResponseDTO<MyReservationResponseDTO> response = reservationHandler.getReservationsByClientId(page, size);
+        return ResponseEntity.ok(response);
+    }
+
 
 }

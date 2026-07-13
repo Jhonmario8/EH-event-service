@@ -1,7 +1,11 @@
 package com.eh.eventservice.application.mapper;
 
+import com.eh.eventservice.application.dto.MyReservationResponseDTO;
+import com.eh.eventservice.application.dto.PageResponseDTO;
 import com.eh.eventservice.application.dto.ReservationDTO;
 import com.eh.eventservice.application.dto.ReservationResponseDTO;
+import com.eh.eventservice.domain.model.MyReservationResponse;
+import com.eh.eventservice.domain.model.PageModel;
 import com.eh.eventservice.domain.model.Reservation;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -12,4 +16,6 @@ public interface IReservationMapper {
     Reservation toDomain(ReservationDTO reservationDTO);
 
     ReservationResponseDTO toDto(Reservation reservation);
+
+    PageResponseDTO<MyReservationResponseDTO> toMyReservationResponseDTO(PageModel<MyReservationResponse> pageModel);
 }

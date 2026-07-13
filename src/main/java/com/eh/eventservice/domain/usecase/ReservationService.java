@@ -15,7 +15,10 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class ReservationService implements IReservationServicePort {
@@ -28,7 +31,7 @@ public class ReservationService implements IReservationServicePort {
     @Override
     @Transactional
     public Reservation createReservation(Reservation reservation) {
-        validateRole(Role.CLIENT, DomainConstants.MSG_ONLY_CLIENT_CAN_CREATE_RESERVATION);
+        validateRole(DomainConstants.MSG_ONLY_CLIENT_CAN_CREATE_RESERVATION);
         Long clientId = authenticationServicePort.getCurrentUserId();
         User user = userServicePort.findUserById(clientId);
         reservation.setClientId(clientId);
@@ -64,7 +67,7 @@ public class ReservationService implements IReservationServicePort {
     @Override
     @Transactional
     public Map<String, Object> cancelReservation(Long reservationId) {
-        validateRole(Role.CLIENT, DomainConstants.MSG_ONLY_CLIENT_CAN_CANCEL_RESERVATION);
+        validateRole(DomainConstants.MSG_ONLY_CLIENT_CAN_CANCEL_RESERVATION);
         Long clientId = authenticationServicePort.getCurrentUserId();
         Reservation reservation = reservationPersistencePort.findById(reservationId)
                 .orElseThrow(() -> new NotFoundException(DomainConstants.MSG_RESERVATION_NOT_FOUND));
@@ -101,9 +104,35 @@ public class ReservationService implements IReservationServicePort {
         );
     }
 
-    private void validateRole(Role requiredRole, String errorMessage) {
+    @Override
+    public PageModel<MyReservationResponse> getReservationsByClientId(int page, int size) {
+        validateRole(DomainConstants.MSG_ONLY_CLIENT_CAN_VIEW_RESERVATIONS);
+        Long clientId = authenticationServicePort.getCurrentUserId();
+        PageModel<Reservation> reservations = reservationPersistencePort.findByClientId(clientId, page, size);
+
+        List<Long> eventIds = reservations.getContent().stream()
+                .map(Reservation::getEventId)
+                .distinct()
+                .toList();
+
+        List<Event> events = eventPersistencePort.findByIds(eventIds);
+
+        Map<Long, Event> eventMap = events.stream()
+                .collect(Collectors.toMap(Event::getId, Function.identity()));
+
+        List<MyReservationResponse> content = reservations.getContent().stream()
+                .map(reservation -> {
+                    Event event = eventMap.get(reservation.getEventId());
+                    return new MyReservationResponse(reservation, event);
+                })
+                .toList();
+
+        return new PageModel<>(content,reservations.getPageNumber(),reservations.getPageSize(),reservations.getTotalElements(),reservations.getTotalPages());
+    }
+
+    private void validateRole(String errorMessage) {
         Role currentUserRole = authenticationServicePort.getCurrentUserRole();
-        if (currentUserRole != requiredRole) {
+        if (currentUserRole != Role.CLIENT) {
             throw new ForbiddenException(errorMessage);
         }
     }

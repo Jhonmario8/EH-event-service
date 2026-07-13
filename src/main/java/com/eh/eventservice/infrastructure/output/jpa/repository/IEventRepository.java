@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface IEventRepository extends JpaRepository<EventEntity, Long>, JpaSpecificationExecutor<EventEntity> {
@@ -30,5 +31,7 @@ public interface IEventRepository extends JpaRepository<EventEntity, Long>, JpaS
             @Param("status") EventStatus status,
             Pageable pageable
     );
+
+    List<EventEntity> findByIdIn(List<Long> eventIds);
 
 }
