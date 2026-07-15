@@ -14,4 +14,5 @@ public interface IEventServicePort {
     PageModel<Event> getEvents(Long categoryId, String city, LocalDate eventDate, EventStatus status, int page, int size);
     Event finalizeEvent(Long eventId);
     Map<String, Object> cancelEvent(Long eventId);
+    Map<String, Object> getEventById(Long eventId);
 }

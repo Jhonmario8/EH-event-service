@@ -57,4 +57,13 @@ public class EventHandler implements IEventHandler{
         return eventCancelledDTO;
     }
 
+    @Override
+    public EventResponseDTO getEventById(Long eventId) {
+        Map<String, Object> response =  eventServicePort.getEventById(eventId);
+        EventResponseDTO eventResponseDTO = mapper.toResponseDTO((Event) response.get("event"));
+        eventResponseDTO.setCategoryName((String) response.get("category"));
+
+        return eventResponseDTO;
+    }
+
 }

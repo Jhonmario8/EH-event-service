@@ -127,6 +127,21 @@ public class EventService implements IEventServicePort {
         );
     }
 
+    @Override
+    public Map<String, Object> getEventById(Long eventId) {
+        Event event = eventPersistencePort.findById(eventId)
+                .orElseThrow(() -> new NotFoundException(DomainConstants.MSG_EVENT_NOT_FOUND));
+
+        Category category = categoryPersistencePort.findByIdAndActive(event.getCategoryId())
+                .orElseThrow(() -> new NotFoundException(DomainConstants.MSG_CATEGORY_NOT_FOUND));
+
+        return Map.of(
+                "event", event,
+                "category", category.getName()
+        );
+
+    }
+
 
     private void validateRole(Role requiredRole, String errorMessage) {
         Role currentUserRole = authenticationServicePort.getCurrentUserRole();

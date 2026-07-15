@@ -16,4 +16,5 @@ public interface IEventHandler {
     PageResponseDTO<EventResponseDTO> getEvents(Long categoryId, String city, LocalDate eventDate, EventStatus status, int page, int size);
     EventResponseDTO finalizeEvent(Long eventId);
     EventCancelledDTO cancelEvent(Long eventId);
+    EventResponseDTO getEventById(Long eventId);
 }

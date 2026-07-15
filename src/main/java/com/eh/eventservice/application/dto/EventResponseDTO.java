@@ -31,6 +31,7 @@ public class EventResponseDTO {
     private Double price;
     private EventStatus status;
     private Long categoryId;
+    private String categoryName;
     private Long organizerId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

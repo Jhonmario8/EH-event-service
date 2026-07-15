@@ -10,6 +10,8 @@ import com.eh.eventservice.domain.model.Role;
 import com.eh.eventservice.domain.spi.ICategoryPersistencePort;
 import lombok.RequiredArgsConstructor;
 
+
+
 @RequiredArgsConstructor
 public class CategoryService implements ICategoryServicePort {
 
@@ -18,7 +20,7 @@ public class CategoryService implements ICategoryServicePort {
 
     @Override
     public Category createCategory(Category category) {
-       validateRole(Role.ADMIN, DomainConstants.MSG_ONLY_ADMIN_CAN_CREATE_CATEGORY);
+       validateRole();
        categoryPersistencePort.findByName(category.getName()).ifPresent(category1 -> {
            throw new ConflictException(DomainConstants.MSG_CATEGORY_NAME_ALREADY_EXIST);
        });
@@ -26,10 +28,11 @@ public class CategoryService implements ICategoryServicePort {
 
     }
 
-    private void validateRole(Role requiredRole, String errorMessage) {
+
+    private void validateRole() {
         Role currentUserRole = authenticationServicePort.getCurrentUserRole();
-        if (currentUserRole != requiredRole) {
-            throw new ForbiddenException(errorMessage);
+        if (currentUserRole != Role.ADMIN) {
+            throw new ForbiddenException(DomainConstants.MSG_ONLY_ADMIN_CAN_CREATE_CATEGORY);
         }
     }
 }

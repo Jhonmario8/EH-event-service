@@ -60,4 +60,11 @@ public class EventController {
         EventCancelledDTO dto = eventHandler.cancelEvent(eventId);
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping("/{eventId}")
+    public ResponseEntity<EventResponseDTO> getEventById(@PathVariable Long eventId) {
+        EventResponseDTO dto = eventHandler.getEventById(eventId);
+        return ResponseEntity.ok(dto);
+    }
+
 }
