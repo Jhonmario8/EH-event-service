@@ -7,6 +7,7 @@ import com.eh.eventservice.infrastructure.output.jpa.repository.ICategoryReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +31,10 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
     @Override
     public Optional<Category> findByIdAndActive(Long id) {
         return categoryRepository.findByIdAndActive(id, true).map(categoryEntityMapper::toDomain);
+    }
+
+    @Override
+    public List<Category> findAllActiveCategories() {
+        return categoryRepository.findAllByActive(true).stream().map(categoryEntityMapper::toDomain).toList() ;
     }
 }

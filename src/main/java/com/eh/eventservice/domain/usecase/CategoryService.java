@@ -10,6 +10,7 @@ import com.eh.eventservice.domain.model.Role;
 import com.eh.eventservice.domain.spi.ICategoryPersistencePort;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -26,6 +27,11 @@ public class CategoryService implements ICategoryServicePort {
        });
        return categoryPersistencePort.saveCategory(category);
 
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        return categoryPersistencePort.findAllActiveCategories();
     }
 
 
